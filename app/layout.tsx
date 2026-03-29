@@ -1,7 +1,8 @@
 import { TooltipProvider } from "@/components/ui/tooltip"; // From CLI
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"; // Necessary for Sidebar
-import AppSideBar from "@/components/AppSideBar";
+import HomePage from "./page";
 import "./globals.css";
+import AppSideBar from "@/components/AppSideBar";
 
 export default function RootLayout({
   children,
@@ -11,14 +12,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* You must wrap everything in BOTH providers */}
         <TooltipProvider>
           <SidebarProvider>
             <AppSideBar />
-            <main>
-              <SidebarTrigger />
-              {children}
-            </main>
+
+            {children}
           </SidebarProvider>
         </TooltipProvider>
       </body>
