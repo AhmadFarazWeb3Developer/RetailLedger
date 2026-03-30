@@ -1,8 +1,8 @@
 "use client";
 
-import AppSideBar from "@/components/AppSideBar";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard"; // Assuming you saved it here
+import BillingCard from "@/components/BillingCard";
 
 // Sample Data - You can later fetch this from an API
 const PRODUCTS = [
@@ -37,6 +37,16 @@ const PRODUCTS = [
       "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=500",
   },
   {
+    id: 3,
+    title: "Strawberry Cheesecake",
+    description:
+      "Creamy NY style cheesecake topped with fresh strawberry glaze.",
+    price: 7.5,
+    category: "Desserts",
+    image:
+      "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=500",
+  },
+  {
     id: 4,
     title: "Green Tea Matcha",
     description: "Premium ceremonial grade matcha whisked to perfection.",
@@ -50,15 +60,10 @@ const PRODUCTS = [
 const HomePage = () => {
   return (
     <div className="flex flex-col min-h-screen w-full bg-background">
-      {/* Navbar stays at the top */}
       <Navbar />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar on the left */}
-        <AppSideBar />
-
-        {/* Main Product Area */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+        <main className="flex-1 w-full overflow-y-auto p-2 ">
           <div className="flex flex-col gap-6">
             <header>
               <h1 className="text-3xl font-bold tracking-tight text-foreground">
@@ -85,6 +90,7 @@ const HomePage = () => {
             </div>
           </div>
         </main>
+        <BillingCard />
       </div>
     </div>
   );

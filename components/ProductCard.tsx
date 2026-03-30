@@ -35,7 +35,7 @@ export default function ProductCard({
   };
 
   return (
-    <Card className="w-full max-w-sm overflow-hidden transition-all hover:shadow-lg">
+    <Card className="w-full max-w-sm p-0 overflow-hidden transition-all hover:shadow-lg">
       {/* Image Container */}
       <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <img
@@ -43,11 +43,6 @@ export default function ProductCard({
           alt={title}
           className="h-full w-full object-cover transition-transform hover:scale-105"
         />
-        {category && (
-          <Badge className="absolute left-2 top-2 bg-white/80 text-black backdrop-blur-sm hover:bg-white">
-            {category}
-          </Badge>
-        )}
       </div>
 
       <CardHeader className="p-4">
@@ -95,7 +90,7 @@ export default function ProductCard({
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full gap-2">
+        <Button className="w-full gap-2 bg-gray-400 cursor-pointer hover:bg-black ">
           <ShoppingCart className="h-4 w-4" /> Add to Cart
         </Button>
       </CardFooter>
