@@ -1,7 +1,6 @@
 "use client";
 import {
   Sidebar,
-  SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
@@ -66,47 +65,47 @@ const AppSideBar = () => {
             {open ? <PanelLeftClose size={20} /> : <PanelLeft size={20} />}
           </button>
         </div>
-
         <SidebarHeader
           className={`p-0 font-bold text-md ${!open ? "hidden" : "block"}`}
         >
-          <div className="py-4">Categories</div>
+          <p className="py-4 text-sm">Categories</p>
         </SidebarHeader>
 
-        <SidebarContent className={`gap-2 ${!open ? "hidden" : "block"}`}>
-          {menuItems.map((group, idx) => (
-            <Collapsible key={idx} className="group/collapsible w-full">
-              <SidebarGroup className="p-0 border rounded-md overflow-hidden">
-                {/* Header / Trigger Area */}
-                <CollapsibleTrigger asChild>
-                  <div className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-secondary/50 transition-colors">
-                    <SidebarGroupLabel className="p-0 text-sm font-medium cursor-pointer">
-                      {group.category}
-                    </SidebarGroupLabel>
-                    <ChevronRight
-                      size={16}
-                      className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground"
-                    />
-                  </div>
-                </CollapsibleTrigger>
+        {menuItems.map((group, idx) => (
+          <Collapsible
+            key={idx}
+            className={`group/collapsible w-full  my-1 ${!open ? "hidden" : "block"} `}
+          >
+            <SidebarGroup className="p-0 border rounded-md overflow-hidden ">
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center justify-between px-3 py-1 cursor-pointer hover:bg-secondary/50 transition-colors">
+                  <SidebarGroupLabel className="p-0 text-sm font-medium cursor-pointer">
+                    {group.category}
+                  </SidebarGroupLabel>
+                  <ChevronRight
+                    size={16}
+                    className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground"
+                  />
+                </div>
+              </CollapsibleTrigger>
 
-                {/* Items Area */}
-                <CollapsibleContent>
-                  <ul className="pb-2 flex flex-col gap-1">
-                    {group.items.map((item, i) => (
-                      <li
-                        key={i}
-                        className="mx-2 px-3 py-1.5 text-sm rounded-sm hover:bg-accent cursor-pointer list-none"
-                      >
-                        {item.name} ({item.quantity})
-                      </li>
-                    ))}
-                  </ul>
-                </CollapsibleContent>
-              </SidebarGroup>
-            </Collapsible>
-          ))}
-        </SidebarContent>
+              {/* Items Area */}
+              <CollapsibleContent>
+                <ul className="pb-2 flex flex-col gap-1">
+                  {group.items.map((item, i) => (
+                    <li
+                      key={i}
+                      className="mx-2 px-3 py-1  text-xs rounded-sm hover:bg-accent cursor-pointer list-none"
+                    >
+                      {item.name} ({item.quantity})
+                    </li>
+                  ))}
+                </ul>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+        ))}
+        {/* </SidebarContent> */}
       </div>
       <AppSidebarFooter />
     </Sidebar>

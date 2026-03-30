@@ -3,6 +3,8 @@
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import BillingCard from "@/components/BillingCard";
+import { useEffect, useState } from "react";
+import { Product } from "../Types";
 
 const PRODUCTS = [
   {
@@ -52,11 +54,15 @@ const PRODUCTS = [
     price: 6.0,
     category: "Beverages",
     image:
-      "https://images.unsplash.com/photo-1582733315328-849315f400fa?q=80&w=500",
+      "https://images.unsplash.com/photo-1615205597144-5c7c885291d2?q=80&w=708",
   },
 ];
 
 const HomePage = () => {
+  const [cartProducts, setCartProducts] = useState<Product[]>([]);
+
+  useEffect(() => {}, [cartProducts]);
+
   return (
     <div className=" flex flex-row">
       <div className="flex flex-col min-h-screen w-full bg-background border">
@@ -72,7 +78,7 @@ const HomePage = () => {
 
               {/* PRODUCT GRID */}
               {/* grid-cols-1 for mobile, 2 for tablets, 3 for desktops */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {PRODUCTS.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -81,6 +87,7 @@ const HomePage = () => {
                     price={product.price}
                     category={product.category}
                     image={product.image}
+                    setCartProducts={setCartProducts}
                   />
                 ))}
               </div>
@@ -88,7 +95,7 @@ const HomePage = () => {
           </main>
         </div>
       </div>
-      <BillingCard />
+      <BillingCard cartProducts={cartProducts} />
     </div>
   );
 };

@@ -1,23 +1,18 @@
+"use client";
+
 import { ShoppingCart, Plus, Minus } from "lucide-react";
-import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Product } from "../Types";
 
 interface ProductProps {
   title: string;
   description: string;
   price: number;
   image: string;
-  category?: string;
+  category: string;
+  setCartProducts: Dispatch<SetStateAction<Product[]>>;
 }
 
 export default function ProductCard({
@@ -26,6 +21,7 @@ export default function ProductCard({
   price,
   image,
   category,
+  setCartProducts,
 }: ProductProps) {
   const [quantity, setQuantity] = useState(1);
 
@@ -35,65 +31,68 @@ export default function ProductCard({
   };
 
   return (
-    <Card className="w-full max-w-sm p-0 overflow-hidden transition-all hover:shadow-lg">
-      {/* Image Container */}
-      <div className="relative aspect-video w-full overflow-hidden bg-muted">
+    <Card className="group w-full overflow-hidden border-gray-200 p-0 transition-all hover:border-gray-400 shadow-sm rounded-sm">
+      {/* Image Container - Slightly shorter aspect ratio for compact feel */}
+      <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
         <img
           src={image}
           alt={title}
-          className="h-full w-full object-cover transition-transform hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
       </div>
 
-      <CardHeader className="p-4">
-        <div className="flex items-center justify-between">
-          <CardTitle className="line-clamp-1 text-xl">{title}</CardTitle>
-          <span className="text-lg font-bold text-primary">
-            ${price.toFixed(2)}
-          </span>
+      <div className="p-2 space-y-2">
+        {/* Header - Title and Price on one line */}
+        <div className="space-y-0.5">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-xs font-bold leading-tight  flex-1">{title}</h3>
+            <span className="text-xs font-black text-black">
+              ${price.toFixed(2)}
+            </span>
+          </div>
+          <p className="text-[10px] leading-relaxed text-muted-foreground line-clamp-2">
+            {description}
+          </p>
         </div>
-        <CardDescription className="line-clamp-2 mt-2">
-          {description}
-        </CardDescription>
-      </CardHeader>
 
-      <CardContent className="p-4 pt-0">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Qty:</span>
-          <div className="flex items-center">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 rounded-r-none"
+        {/* Action Row - Qty and Add Button */}
+        <div className="flex items-center justify-between gap-2 pt-1">
+          {/* Compact Quantity Selector */}
+          <div className="flex items-center border rounded-md overflow-hidden bg-background">
+            <button
               onClick={() => handleQuantityChange(quantity - 1)}
+              className="px-1.5 py-2 hover:bg-black transition-colors text-muted-foreground border-r cursor-pointer"
             >
-              <Minus className="h-3 w-3" />
-            </Button>
-            <Input
+              <Minus size={10} />
+            </button>
+            <input
               type="number"
               value={quantity}
-              onChange={(e) =>
-                handleQuantityChange(parseInt(e.target.value) || 1)
-              }
-              className="h-8 w-12 rounded-none border-x-0 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              readOnly
+              className="w-6 text-[10px] font-bold text-center bg-transparent outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 rounded-l-none"
+            <button
               onClick={() => handleQuantityChange(quantity + 1)}
+              className="px-1.5 py-2  hover:bg-black transition-colors text-muted-foreground border-l cursor-pointer"
             >
-              <Plus className="h-3 w-3" />
-            </Button>
+              <Plus size={10} />
+            </button>
           </div>
-        </div>
-      </CardContent>
 
-      <CardFooter className="p-4 pt-0">
-        <Button className="w-full gap-2 bg-gray-400 cursor-pointer hover:bg-black ">
-          <ShoppingCart className="h-4 w-4" /> Add to Cart
-        </Button>
-      </CardFooter>
+          <Button
+            onClick={() =>
+              setCartProducts((prev) => [
+                ...prev,
+                { title, description, price, image, category },
+              ])
+            }
+            size="sm"
+            className="h-7 w-7 p-0 rounded-sm bg-gray-400 hover:bg-black  cursor-pointer"
+          >
+            <ShoppingCart size={14} className="text-white rounded-sm" />
+          </Button>
+        </div>
+      </div>
     </Card>
   );
 }
