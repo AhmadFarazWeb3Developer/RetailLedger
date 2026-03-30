@@ -2,7 +2,6 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
@@ -14,7 +13,8 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 
-import { ChevronRight, PanelLeftClose, Vault } from "lucide-react";
+import { ChevronRight, PanelLeft, PanelLeftClose, Vault } from "lucide-react";
+import { AppSidebarFooter } from "./AppSideBarFooter";
 
 const AppSideBar = () => {
   const menuItems = [
@@ -46,62 +46,69 @@ const AppSideBar = () => {
   const { toggleSidebar, open } = useSidebar();
 
   return (
-    <Sidebar
-      collapsible={"icon"}
-      className={` ${!open ? "px-0" : "px-6"} py-4`}
-    >
-      <div className="flex flex-row items-center justify-between mb-4">
-        <Vault className={`${!open ? "hidden" : "block"}`} />
-        <button
-          onClick={toggleSidebar}
-          className="p-2 hover:bg-accent rounded-md transition-colors"
-        >
-          <PanelLeftClose size={20} />
-        </button>
-      </div>
-
-      <SidebarHeader
-        className={`p-0 font-bold text-md ${!open ? "hidden" : "block"}`}
+    <Sidebar collapsible={"icon"} className="p-0">
+      <div
+        className={` h-full transition-all duration-300 ${!open ? "px-0" : "px-6"} py-4`}
       >
-        <div className="py-4">Categories</div>
-      </SidebarHeader>
+        <div
+          className={`flex items-center mb-4 ${!open ? "justify-center" : "justify-between"}`}
+        >
+          {open && (
+            <div className="flex items-center gap-2 overflow-hidden">
+              <Vault className="shrink-0" />
+            </div>
+          )}
 
-      <SidebarContent className={`gap-2 ${!open ? "hidden" : "block"}`}>
-        {menuItems.map((group, idx) => (
-          <Collapsible key={idx} className="group/collapsible w-full">
-            <SidebarGroup className="p-0 border rounded-md overflow-hidden">
-              {/* Header / Trigger Area */}
-              <CollapsibleTrigger asChild>
-                <div className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-secondary/50 transition-colors">
-                  <SidebarGroupLabel className="p-0 text-sm font-medium cursor-pointer">
-                    {group.category}
-                  </SidebarGroupLabel>
-                  <ChevronRight
-                    size={16}
-                    className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground"
-                  />
-                </div>
-              </CollapsibleTrigger>
+          <button
+            onClick={toggleSidebar}
+            className={`flex items-center justify-center h-9 w-9 rounded-md hover:bg-accent transition-colors ${!open ? "mx-auto" : ""}`}
+          >
+            {open ? <PanelLeftClose size={20} /> : <PanelLeft size={20} />}
+          </button>
+        </div>
 
-              {/* Items Area */}
-              <CollapsibleContent>
-                <ul className="pb-2 flex flex-col gap-1">
-                  {group.items.map((item, i) => (
-                    <li
-                      key={i}
-                      className="mx-2 px-3 py-1.5 text-sm rounded-sm hover:bg-accent cursor-pointer list-none"
-                    >
-                      {item.name} ({item.quantity})
-                    </li>
-                  ))}
-                </ul>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
-        ))}
-      </SidebarContent>
+        <SidebarHeader
+          className={`p-0 font-bold text-md ${!open ? "hidden" : "block"}`}
+        >
+          <div className="py-4">Categories</div>
+        </SidebarHeader>
 
-      <SidebarFooter className="p-4" />
+        <SidebarContent className={`gap-2 ${!open ? "hidden" : "block"}`}>
+          {menuItems.map((group, idx) => (
+            <Collapsible key={idx} className="group/collapsible w-full">
+              <SidebarGroup className="p-0 border rounded-md overflow-hidden">
+                {/* Header / Trigger Area */}
+                <CollapsibleTrigger asChild>
+                  <div className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-secondary/50 transition-colors">
+                    <SidebarGroupLabel className="p-0 text-sm font-medium cursor-pointer">
+                      {group.category}
+                    </SidebarGroupLabel>
+                    <ChevronRight
+                      size={16}
+                      className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground"
+                    />
+                  </div>
+                </CollapsibleTrigger>
+
+                {/* Items Area */}
+                <CollapsibleContent>
+                  <ul className="pb-2 flex flex-col gap-1">
+                    {group.items.map((item, i) => (
+                      <li
+                        key={i}
+                        className="mx-2 px-3 py-1.5 text-sm rounded-sm hover:bg-accent cursor-pointer list-none"
+                      >
+                        {item.name} ({item.quantity})
+                      </li>
+                    ))}
+                  </ul>
+                </CollapsibleContent>
+              </SidebarGroup>
+            </Collapsible>
+          ))}
+        </SidebarContent>
+      </div>
+      <AppSidebarFooter />
     </Sidebar>
   );
 };

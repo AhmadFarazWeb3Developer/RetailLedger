@@ -1,10 +1,9 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
-import ProductCard from "@/components/ProductCard"; // Assuming you saved it here
+import ProductCard from "@/components/ProductCard";
 import BillingCard from "@/components/BillingCard";
 
-// Sample Data - You can later fetch this from an API
 const PRODUCTS = [
   {
     id: 1,
@@ -37,7 +36,7 @@ const PRODUCTS = [
       "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=500",
   },
   {
-    id: 3,
+    id: 4,
     title: "Strawberry Cheesecake",
     description:
       "Creamy NY style cheesecake topped with fresh strawberry glaze.",
@@ -47,7 +46,7 @@ const PRODUCTS = [
       "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=500",
   },
   {
-    id: 4,
+    id: 5,
     title: "Green Tea Matcha",
     description: "Premium ceremonial grade matcha whisked to perfection.",
     price: 6.0,
@@ -59,39 +58,37 @@ const PRODUCTS = [
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col min-h-screen w-full bg-background">
-      <Navbar />
+    <div className=" flex flex-row">
+      <div className="flex flex-col min-h-screen w-full bg-background border">
+        <Navbar />
+        <div className="flex flex-1 overflow-hidden ">
+          <main className="flex-1 w-full overflow-y-auto p-2 ">
+            <div className="flex flex-col gap-6">
+              <header>
+                <h1 className="text-sm font-bold tracking-tight text-foreground">
+                  Our Menu
+                </h1>
+              </header>
 
-      <div className="flex flex-1 overflow-hidden">
-        <main className="flex-1 w-full overflow-y-auto p-2 ">
-          <div className="flex flex-col gap-6">
-            <header>
-              <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                Our Menu
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Freshly prepared items delivered to your table.
-              </p>
-            </header>
-
-            {/* PRODUCT GRID */}
-            {/* grid-cols-1 for mobile, 2 for tablets, 3 for desktops */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {PRODUCTS.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  title={product.title}
-                  description={product.description}
-                  price={product.price}
-                  category={product.category}
-                  image={product.image}
-                />
-              ))}
+              {/* PRODUCT GRID */}
+              {/* grid-cols-1 for mobile, 2 for tablets, 3 for desktops */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {PRODUCTS.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    title={product.title}
+                    description={product.description}
+                    price={product.price}
+                    category={product.category}
+                    image={product.image}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </main>
-        <BillingCard />
+          </main>
+        </div>
       </div>
+      <BillingCard />
     </div>
   );
 };

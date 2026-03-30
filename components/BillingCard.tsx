@@ -9,6 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"; // Add this for a cleaner look
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+} from "./ui/sidebar";
 
 const BILL = [
   { title: "Dark Roast Coffee", price: 18.5, quantity: 1 },
@@ -21,15 +29,19 @@ const BillingCard = () => {
   const total = BILL.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <Card className="w-full max-w-sm shadow-md rounded-none p-2">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 px-2">
+    <Sidebar
+      side={"right"}
+      variant={"inset"}
+      className=" shadow-md rounded-none p-0 scroll-auto"
+    >
+      <SidebarHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-2">
         <CardTitle className="text-lg font-bold">Bill Detail</CardTitle>
         <span className="text-sm font-mono text-muted-foreground">#0001</span>
-      </CardHeader>
+      </SidebarHeader>
 
       <Separator className="mb-4 p-0" />
 
-      <CardContent className="space-y-4 px-2">
+      <SidebarContent className="space-y-4 px-2">
         {BILL.map((product, idx) => (
           <div key={idx} className="flex items-center justify-between text-sm">
             <div className="flex flex-col">
@@ -43,11 +55,11 @@ const BillingCard = () => {
             </span>
           </div>
         ))}
-      </CardContent>
+      </SidebarContent>
 
       <Separator className="my-2" />
 
-      <CardFooter className="flex flex-col gap-4 pt-4">
+      <SidebarFooter className="flex flex-col gap-4 pt-4">
         <div className="flex w-full items-center justify-between">
           <span className="text-lg font-bold">Total</span>
           <span className="text-xl font-bold text-primary">
@@ -58,8 +70,8 @@ const BillingCard = () => {
         <Button className="w-full" size="lg">
           Process Transaction
         </Button>
-      </CardFooter>
-    </Card>
+      </SidebarFooter>
+    </Sidebar>
   );
 };
 
