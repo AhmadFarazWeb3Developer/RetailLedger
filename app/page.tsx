@@ -61,8 +61,6 @@ const PRODUCTS = [
 const HomePage = () => {
   const [cartProducts, setCartProducts] = useState<Product[]>([]);
 
-  useEffect(() => {}, [cartProducts]);
-
   return (
     <div className=" flex flex-row">
       <div className="flex flex-col min-h-screen w-full bg-background border">
@@ -82,11 +80,12 @@ const HomePage = () => {
                 {PRODUCTS.map((product) => (
                   <ProductCard
                     key={product.id}
+                    id={product.id}
                     title={product.title}
                     description={product.description}
                     price={product.price}
-                    category={product.category}
                     image={product.image}
+                    category={product.category}
                     setCartProducts={setCartProducts}
                   />
                 ))}

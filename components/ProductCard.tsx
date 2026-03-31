@@ -1,12 +1,13 @@
 "use client";
 
 import { ShoppingCart, Plus, Minus } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Product } from "../Types";
 
 interface ProductProps {
+  id: number;
   title: string;
   description: string;
   price: number;
@@ -16,6 +17,7 @@ interface ProductProps {
 }
 
 export default function ProductCard({
+  id,
   title,
   description,
   price,
@@ -25,10 +27,36 @@ export default function ProductCard({
 }: ProductProps) {
   const [quantity, setQuantity] = useState(1);
 
-  const handleQuantityChange = (val: number) => {
-    if (val < 1) return;
-    setQuantity(val);
+  const addToCart = (newProduct: Product) => {
+    setCartProducts((prev) => {
+      const exists = prev.some((p) => p.id === newProduct.id);
+      if (exists) {
+        return prev.map((p) =>
+          p.id === newProduct.id
+            ? { ...p, quantity: p.quantity + quantity }
+            : p,
+        );
+      } else {
+        return [...prev, { ...newProduct, quantity: quantity }];
+      }
+    });
   };
+
+  useEffect(() => {
+    setCartProducts((prev) => {
+      const exists = prev.some((p) => p.id === id);
+
+      if (exists) {
+        return prev.map((p) =>
+          p.id === id
+            ? { ...p, quantity } // sync with local quantity
+            : p,
+        );
+      }
+
+      return prev;
+    });
+  }, [quantity]);
 
   return (
     <Card className="group w-full overflow-hidden border-gray-200 p-0 transition-all hover:border-gray-400 shadow-sm rounded-sm">
@@ -60,7 +88,7 @@ export default function ProductCard({
           {/* Compact Quantity Selector */}
           <div className="flex items-center border rounded-md overflow-hidden bg-background">
             <button
-              onClick={() => handleQuantityChange(quantity - 1)}
+              onClick={() => setQuantity(quantity - 1)}
               className="px-1.5 py-2 hover:bg-black transition-colors text-muted-foreground border-r cursor-pointer"
             >
               <Minus size={10} />
@@ -72,7 +100,7 @@ export default function ProductCard({
               className="w-6 text-[10px] font-bold text-center bg-transparent outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
             />
             <button
-              onClick={() => handleQuantityChange(quantity + 1)}
+              onClick={() => setQuantity(quantity + 1)}
               className="px-1.5 py-2  hover:bg-black transition-colors text-muted-foreground border-l cursor-pointer"
             >
               <Plus size={10} />
@@ -81,10 +109,15 @@ export default function ProductCard({
 
           <Button
             onClick={() =>
-              setCartProducts((prev) => [
-                ...prev,
-                { title, description, price, image, category },
-              ])
+              addToCart({
+                id,
+                title,
+                description,
+                price,
+                category,
+                quantity,
+                image,
+              })
             }
             size="sm"
             className="h-7 w-7 p-0 rounded-sm bg-gray-400 hover:bg-black  cursor-pointer"

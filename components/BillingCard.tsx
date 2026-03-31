@@ -11,19 +11,24 @@ import {
 } from "./ui/sidebar";
 
 import { Product } from "../Types";
-const BILL = [
-  { title: "Dark Roast Coffee", price: 18.5, quantity: 1 },
-  { title: "Classic Cheeseburger", price: 12.99, quantity: 1 },
-  { title: "Green Tea Matcha", price: 6.0, quantity: 2 },
-];
+import { useEffect, useState } from "react";
 
 interface BillingCardProps {
   cartProducts: Product[];
 }
 
 const BillingCard = ({ cartProducts }: BillingCardProps) => {
-  // Logic to calculate the actual total
-  const total = BILL.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const [totalBill, setTotalBill] = useState(0);
+
+  useEffect(() => {
+    //  reduce function takes  reduce(accumulator,currentVal,0) take previous state varable like total, current value of array and initial value like 0
+
+    const total = cartProducts.reduce((sum, product) => {
+      return sum + product.price * product.quantity;
+    }, 0);
+
+    setTotalBill(total);
+  }, [cartProducts]);
 
   return (
     <Sidebar
@@ -47,7 +52,9 @@ const BillingCard = ({ cartProducts }: BillingCardProps) => {
                 Qty: {product.quantity}
               </span>
             </div>
-            <span className="font-semibold">${product.price.toFixed(2)}</span>
+            <span className="font-semibold">
+              ${(product.price * product.quantity).toFixed(2)}
+            </span>
           </div>
         ))}
       </SidebarContent>
@@ -58,11 +65,11 @@ const BillingCard = ({ cartProducts }: BillingCardProps) => {
         <div className="flex w-full items-center justify-between">
           <span className="text-lg font-bold">Total</span>
           <span className="text-xl font-bold text-primary">
-            ${total.toFixed(2)}
+            ${totalBill.toFixed(2)}
           </span>
         </div>
 
-        <Button className="w-full" size="lg">
+        <Button className="w-full cursor-pointer" size="lg">
           Process Transaction
         </Button>
       </SidebarFooter>

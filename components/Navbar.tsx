@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, SearchIcon } from "lucide-react";
+import { Bell, SearchIcon } from "lucide-react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { Spinner } from "./ui/spinner";
 
