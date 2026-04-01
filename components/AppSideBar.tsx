@@ -23,6 +23,7 @@ const AppSideBar = () => {
         { name: "Coffee", quantity: 13 },
         { name: "Tea", quantity: 11 },
         { name: "Juice", quantity: 20 },
+        { name: "Tea", quantity: 20 },
       ],
     },
     {
